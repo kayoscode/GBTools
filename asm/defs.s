@@ -26,15 +26,39 @@
 //subtract flag (N) -> set if subtraction was performed in the last math op
 //half carry flag (H) -> set if a carry occured in the lower nibble (last op)
 //carry flag (C) -> set if a carry occured from the last math op OR if register A is the smaller value when executing CP instruction
-.macro setFlag flagMask
-    or \flagMask, F
+.macro setZero
+    or ZERO_FLAG_MASK, F
 .endm
 
-.macro clearFlag flagMask
-    and \flagMask, F
+.macro clearZero
+    and COMP_ZERO_FLAG_MASK, F
 .endm
 
 .macro branchZero flagMask lbl
+.endm
+
+.macro setSub
+    or SUB_FLAG_MASK, F
+.endm
+
+.macro clearSub
+    and COMP_SUB_FLAG_MASK, F
+.endm
+
+.macro setHalfCarry
+    or HALF_CARRY_FLAG_MASK, F
+.endm
+
+.macro clearHalfCarry
+    and COMP_HALF_CARRY_FLAG_MASK, F
+.endm
+
+.macro setCarry
+    or CARRY_FLAG_MASK, F
+.endm
+
+.macro clearCarry
+    and COMP_CARRY_FLAG_MASK, F
 .endm
 
 //adds an opcode to the array of functions

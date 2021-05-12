@@ -39,11 +39,11 @@
         shrd $1, BC, %rcx
         cmp $0, %rcx
         jne inst0x04SkipZeroFlag
-        setFlag ZERO_FLAG_MASK 
+        setZero
         inst0x04SkipZeroFlag:
 
         //if the result is zero, set the zero flag
-        clearFlag COMP_SUB_FLAG_MASK
+        clearSub
 
         //TODO: set other flags accordingly and set zero flag to false in the ELSE condition
         ret
