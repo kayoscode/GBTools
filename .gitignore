@@ -1,4 +1,2 @@
-./build/*
-./build/
-./build
-.vscode/*
+build/
+.vscode/
