@@ -1,3 +1,0 @@
-/home/bryce/Documents/GbTools/build/CMakeFiles/rebuild_cache.dir
-/home/bryce/Documents/GbTools/build/CMakeFiles/edit_cache.dir
-/home/bryce/Documents/GbTools/build/CMakeFiles/GBTools.dir
