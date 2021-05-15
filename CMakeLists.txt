@@ -7,6 +7,8 @@ file(GLOB SRC
     "src/*.cpp"
     "include/*.h"
     "asm/*.s"
+    "asm/windows/*.s"
+    "asm/linux/*.s"
 )
 
 add_executable(${PROJ_NAME}

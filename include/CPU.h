@@ -19,7 +19,7 @@ class CPU {
         }
 
     private:
-        int (*instructions[256])(int p1);
+        int (*instructions[256])(int p1) = { 0 };
 };
 
 #endif

@@ -3,6 +3,6 @@
 
 int main() {
     CPU cpu;
-    cpu.executeInstruction(4);
+    cpu.executeInstruction(1);
     return 0;
 }

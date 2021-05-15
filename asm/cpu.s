@@ -38,9 +38,14 @@
 
         shrd $1, BC, %rcx
         cmp $0, %rcx
+
+        //set or clear the zero flag accordingly
         jne inst0x04SkipZeroFlag
         setZero
+        jmp inst0x04ZeroFlagElse
         inst0x04SkipZeroFlag:
+        clearZero
+        inst0x04ZeroFlagElse:
 
         //if the result is zero, set the zero flag
         clearSub
@@ -61,5 +66,6 @@
         addop inst0x02
         addop inst0x03
         addop inst0x04
+
         popq %rdx
         ret

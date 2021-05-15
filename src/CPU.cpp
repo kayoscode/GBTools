@@ -1,9 +1,9 @@
 #include "CPU.h"
 
 extern "C" {
-    void initGBCpu(void* instructions, int indexSize);
+    void initInternalState(void* instructions, int indexSize);
 }
 
 CPU::CPU() {
-    initGBCpu(instructions, sizeof(void*));
+    initInternalState(instructions, sizeof(void*));
 }
