@@ -9,13 +9,21 @@
  * http://marc.rawer.de/Gameboy/Docs/GBCPUman.pdf
  * */
 
+extern uint64_t currentCPUState[6];
+
+extern "C" {
+    void initInternalState(void* instructions, int indexSize);
+    void printCPUState();
+}
+
 class CPU {
     public:
         CPU();
 
         inline void executeInstruction(int opcode) {
             int v = instructions[opcode](0);
-            std::cout << v << "\n";
+            //printCPUState();
+            //std::cout << v << "\n";
         }
 
     private:

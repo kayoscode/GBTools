@@ -11,6 +11,14 @@
 #define C %R11b
 #define E %R12b
 #define C %R11b
+#define AFW %R10w
+#define BCW %R11w
+#define DEW %R12w
+#define HLW %R13w
+#define SPw %R14w
+#define PCw %R15w
+
+#define REGISTER_SIZE_BYTE 8
 
 #define ZERO_FLAG_MASK $128
 #define SUB_FLAG_MASK $64
