@@ -80,7 +80,6 @@
 
 //only modifies RDX but sets AF properly
 .macro calcSetHalfCarry
-    //set the half carry flag if necessary
     pushfq
     pop %rdx
     and $0x10, %rdx
@@ -91,10 +90,22 @@
 //modifies RCX and RDX
 .macro calcSetZero register
     //set zero flag if applicable
+    xor %rdx, %rdx
     cmp $0, \register
     mov ZERO_FLAG_MASK, %rcx
     cmove %rcx, %rdx
     or %rdx, AF
+.endm
+
+.macro moveUpperRegToTemp register, dest
+    mov \register, \dest
+    and $0x00FF, \register
+    shr $8, \dest
+.endm
+
+.macro moveLowerToTemp register, dest
+    mov \register, \dest
+    and $0xFF00, \register
 .endm
 
 #endif
