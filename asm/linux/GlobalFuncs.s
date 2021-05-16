@@ -13,9 +13,8 @@
         push %R14
         push %R15
 
-        sub $8, %rsp
+        and $-16, %rsp
         call initGBCpu
-        add $8, %rsp
 
         pop %r12
         pop %r13

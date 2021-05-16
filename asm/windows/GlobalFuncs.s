@@ -9,6 +9,9 @@
     //permormance hit is negligable because the vast majority of the calls are going to be from within asm itself and
     //call conversions from the standard asm implementation is unnecessary
     initInternalState:
+        push %rbp
+        mov %rsp, %rbp
+
         push %rdi
         push %rsi
         mov %rcx, %rdi
@@ -19,9 +22,8 @@
         push %R14
         push %R15
 
-        sub $8, %rsp // adjust stack allignment
+        and $-16, %rsp
         call initGBCpu
-        add $8, %rsp
 
         pop %R15
         pop %R14
@@ -30,6 +32,8 @@
 
         pop %rsi
         pop %rdi
+
+        leave
         ret
 
 #endif

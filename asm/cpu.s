@@ -20,6 +20,24 @@
     .global loadCPUState
     .extern printCPUState
 
+    //void printInternalState()
+    //preserves state and prints using c++
+    printInternalState:
+        //set stack frame
+        push %rbp
+        mov %rsp, %rbp
+
+        //ensure byte alignment
+        and $-16, %rsp
+
+        call saveCPUState
+        call printCPUState
+        call loadCPUState
+
+        //return
+        leave
+        ret
+
     //takes the current values in CPU state and initializes each 
     //cpu register
     loadCPUState:
@@ -117,8 +135,20 @@
         addop inst0x04
 
         call loadCPUState
+        mov $16, %rcx
+
+        lp:
+        push %rcx
+        push %rdx
         call inst0x04
+        call printInternalState
+        pop %rdx
+        pop %rcx
+        dec %rcx
+        jnz lp
+    
         call saveCPUState
         call printCPUState
+
         popq %rdx
         ret
