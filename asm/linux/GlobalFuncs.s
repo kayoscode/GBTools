@@ -6,6 +6,9 @@
     //initInternalState(void* functions, int sizeof(void*))
     .global initInternalState
     initInternalState:
+        push %rbp
+        mov %rsp, %rbp
+
         push %rcx
         push %rdx
         push %R12
@@ -22,6 +25,8 @@
         pop %R15
         pop %rdx
         pop %rcx
+
+        leave
         ret
 
 #endif

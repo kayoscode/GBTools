@@ -51,6 +51,7 @@
         mov 5 * REGISTER_SIZE_BYTE(%rcx), PC
         ret
     
+    //takes the current register state and loads it into the array
     saveCPUState:
         leaq currentCPUState(%rip), %rcx
         mov AF, 0 * REGISTER_SIZE_BYTE(%rcx)
@@ -94,26 +95,11 @@
         //copy the previous flag register to rsi
         //be sure to clear the bits that will be modified
         and $0x1F, F
-        mov F, %sil
 
         //perform actual increment on register (add instruction to make sure it sets the auxilliary flag)
         add $1, %dil
-
-        //set the half carry flag if necessary
-        pushfq
-        pop %rdx
-        and $0x10, %rdx
-        shl $1, %rdx //shifting left by one lines rdx up with the gameboy's half carry flag
-        or %rdx, AF
-
-        //set zero flag if applicable
-        cmp $0, %dil
-        mov ZERO_FLAG_MASK, %rcx
-        cmove %rcx, %rdx
-        or %rdx, AF
-
-        //copy back modified flag register
-        or %dl, F
+        calcSetHalfCarry
+        calcSetZero %dil
 
         //copy back into base register
         shl $8, %di

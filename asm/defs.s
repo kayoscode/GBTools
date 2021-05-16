@@ -78,4 +78,23 @@
     add %rsi, %rdx
 .endm
 
+//only modifies RDX but sets AF properly
+.macro calcSetHalfCarry
+    //set the half carry flag if necessary
+    pushfq
+    pop %rdx
+    and $0x10, %rdx
+    shl $1, %rdx //shifting left by one lines rdx up with the gameboy's half carry flag
+    or %rdx, AF
+.endm
+
+//modifies RCX and RDX
+.macro calcSetZero register
+    //set zero flag if applicable
+    cmp $0, \register
+    mov ZERO_FLAG_MASK, %rcx
+    cmove %rcx, %rdx
+    or %rdx, AF
+.endm
+
 #endif
