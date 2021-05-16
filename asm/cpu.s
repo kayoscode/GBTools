@@ -26,6 +26,7 @@
         //set stack frame
         push %rbp
         mov %rsp, %rbp
+        //here we would allocate space for local variables if necessary
 
         //ensure byte alignment
         and $-16, %rsp
@@ -133,22 +134,6 @@
         addop inst0x02
         addop inst0x03
         addop inst0x04
-
-        call loadCPUState
-        mov $16, %rcx
-
-        lp:
-        push %rcx
-        push %rdx
-        call inst0x04
-        call printInternalState
-        pop %rdx
-        pop %rcx
-        dec %rcx
-        jnz lp
-    
-        call saveCPUState
-        call printCPUState
 
         popq %rdx
         ret
