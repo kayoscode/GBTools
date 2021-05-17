@@ -84,45 +84,19 @@
     //inc BC
     .global inst0x03
     inst0x03:
-        inc BC //doesn't affect flags 
-        and $0xFFFF, BC //might not care about this because the overflow doesn't matter
+        incDblReg BC
         ret
 
     //inc B (RDI, RSI, RCX, RDX modified)
     .global inst0x04
     inst0x04:
-        moveUpperRegToTemp BC, %rdi
-
-        //start by clearing all flags except carry (unaffected)
-        and $0x1F, F
-
-        //perform actual increment on register (add instruction to make sure it sets the auxilliary flag)
-        add $1, %dil
-        calcSetHalfCarry
-        calcSetZero %dil
-
-        //copy back into base register
-        shl $8, %di
-        or %di, BCW
+        incHighReg BC, BCW
         ret
     
-    //dec B
+    //DEC B
     .global inst0x05
     inst0x05:
-        moveUpperRegToTemp BC, %rdi
-
-        //start by clearing all flags except carry (unaffected)
-        and $0x1F, F
-
-        //sub and calculate flags
-        sub $1, %dil
-        calcSetHalfCarry
-        calcSetZero %dil
-        setSub
-
-        //copy back into register
-        shl $8, %di
-        or %di, BCW
+        decHighReg BC, BCW
         ret
     
     //LD B, d8
@@ -176,43 +150,19 @@
     //DEC BC
     .global inst0x0B
     inst0x0B:
-        dec BC
-        and $0xFFFF, BC
+        decDblReg BC
         ret
     
     //INC C
     .global inst0x0C
     inst0x0C:
-        moveLowerToTemp BC, %rdi
-
-        //start by clearing all flags except carry (unaffected)
-        and $0x1F, F
-
-        //perform actual increment on register (add instruction to make sure it sets the auxilliary flag)
-        add $1, %dil
-        calcSetHalfCarry
-        calcSetZero %dil
-
-        //copy back into base register
-        or %di, BCW
+        incLowReg BC, BCW
         ret
     
     //DEC C
     .global inst0x0D
     inst0x0D:
-        moveLowerToTemp BC, %rdi
-
-        //start by clearing all flags except carry (unaffected)
-        and $0x1F, F
-
-        //sub and calculate flags
-        sub $1, %dil
-        calcSetHalfCarry
-        calcSetZero %dil
-        setSub
-
-        //copy back into register
-        or %di, BCW
+        decLowReg BC, BCW
         ret
     
     //LD C, d8
@@ -228,6 +178,22 @@
     //STOP 0
     .global inst0x10
     inst0x10:
+        ret
+        
+    //LD DE, d16
+    .global inst0x11
+    inst0x11:
+        ret
+
+    //LD (DE), A
+    .global inst0x12
+    inst0x12:
+        ret
+
+    //INC DE
+    .global inst0x13
+    inst0x13:
+        incDblReg DE
         ret
 
     //initGBCpu(rdi: void* instructions, rsi:int size)
@@ -263,10 +229,7 @@
         addop inst0x10
 
         call loadCPUState
-        mov $0xFF00, AF
-        call inst0x07
         call printInternalState
-
         popq %rdx
 
         leave

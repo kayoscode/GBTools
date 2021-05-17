@@ -108,4 +108,78 @@
     and $0xFF00, \register
 .endm
 
+.macro incDblReg register
+    inc \register //doesn't affect flags 
+    and $0xFFFF, \register //might not care about this because the overflow doesn't matter
+.endm
+
+.macro decDblReg register
+    dec \register
+    and $0xFFFF, \register
+.endm
+
+.macro decLowReg register, store
+    moveLowerToTemp \register, %rdi
+
+    //start by clearing all flags except carry (unaffected)
+    and $0x1F, F
+
+    //sub and calculate flags
+    sub $1, %dil
+    calcSetHalfCarry
+    calcSetZero %dil
+    setSub
+
+    //copy back into register
+    or %di, \store
+.endm
+
+.macro incLowReg register, store
+    moveLowerToTemp \register, %rdi
+
+    //start by clearing all flags except carry (unaffected)
+    and $0x1F, F
+
+    //perform actual increment on register (add instruction to make sure it sets the auxilliary flag)
+    add $1, %dil
+    calcSetHalfCarry
+    calcSetZero %dil
+
+    //copy back into base register
+    or %di, \store
+.endm
+
+.macro decHighReg register, store
+    moveUpperRegToTemp \register, %rdi
+
+    //start by clearing all flags except carry (unaffected)
+    and $0x1F, F
+
+    //sub and calculate flags
+    sub $1, %dil
+    calcSetHalfCarry
+    calcSetZero %dil
+    setSub
+
+    //copy back into register
+    shl $8, %di
+    or %di, \store
+.endm
+
+.macro incHighReg register, store
+    moveUpperRegToTemp \register, %rdi
+
+    //start by clearing all flags except carry (unaffected)
+    and $0x1F, F
+
+    //perform actual increment on register (add instruction to make sure it sets the auxilliary flag)
+    add $1, %dil
+    calcSetHalfCarry
+    calcSetZero %dil
+
+    //copy back into base register
+    shl $8, %di
+    or %di, \store
+.endm
+
 #endif
