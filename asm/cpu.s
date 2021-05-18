@@ -227,10 +227,14 @@
 
         //1x
         addop inst0x10
+        addop inst0x11
+        addop inst0x12
+        addop inst0x13
+
+        popq %rdx
 
         call loadCPUState
         call printInternalState
-        popq %rdx
 
         leave
         ret

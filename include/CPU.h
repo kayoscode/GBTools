@@ -10,6 +10,7 @@
  * */
 
 extern uint64_t currentCPUState[6];
+extern uint8_t memoryMap[0x10000];
 
 extern "C" {
     void initInternalState(void* instructions, int indexSize);

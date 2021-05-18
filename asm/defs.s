@@ -30,6 +30,13 @@
 #define COMP_HALF_CARRY_FLAG_MASK $223
 #define COMP_CARRY_FLAG_MASK $239
 
+#define NONE_INTERRUPT 0x00
+#define VBLANK_INTERRUPT 0x01
+#define LCDSTAT_INTERRUPT 0x02
+#define TIMER_INTERRUPT 0x04
+#define SERIAL_INTERRUPT 0x08
+#define JOYPAD_INTERRUPT 0x10
+
 //zero flag (Z) -> set if the result of the last operation turned out to be zero
 //subtract flag (N) -> set if subtraction was performed in the last math op
 //half carry flag (H) -> set if a carry occured in the lower nibble (last op)
